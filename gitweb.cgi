@@ -91,7 +91,7 @@ our $projectroot = "/pub/git";
 our $project_maxdepth = 2007;
 
 # string of the home link on top of all pages
-our $home_link_str = "projects";
+our $home_link_str = "pinosaur";
 
 # extra breadcrumbs preceding the home link
 our @extra_breadcrumbs = ();
@@ -100,7 +100,7 @@ our @extra_breadcrumbs = ();
 # replace this with something more descriptive for clearer bookmarks
 #our $site_name = ""
 #                 || ($ENV{'SERVER_NAME'} || "Untitled") . " Git";
-our $site_name = "git";
+our $site_name = "gitosaur";
 
 # html snippet to include in the <head> section of each page
 our $site_html_head_string = "";
@@ -4166,34 +4166,37 @@ EOF
 		print "<base href=\"".esc_url($base_url)."\" />\n";
 	}
 	print_header_links($status);
-
+    
 	if (defined $site_html_head_string) {
 		print to_utf8($site_html_head_string);
 	}
 
 	print "</head>\n" .
 	      "<body>\n";
-
+    
+    print "<div class=\"header_banner\">\n"; 
+               
 	if (defined $site_header && -f $site_header) {
 		insert_file($site_header);
 	}
 
+	git_project_search_form($searchtext, $search_use_regexp);
+    print "</div>";
+
 	print "<div class=\"page_header\">\n";
-	if (defined $logo) {
-		print $cgi->a({-href => esc_url($logo_url),
-		               -title => $logo_label},
-		              $cgi->img({-src => esc_url($logo),
-		                         -width => 72, -height => 27,
-		                         -alt => "git",
-		                         -class => "logo"}));
-	}
+
+#	if (defined $logo) {
+#		print $cgi->a({-href => esc_url($logo_url),
+#		               -title => $logo_label},
+#		              $cgi->img({-src => esc_url($logo),
+#		                         -width => 72, -height => 27,
+#		                         -alt => "git",
+#		                         -class => "logo"}));
+#	}
+
 	print_nav_breadcrumbs(%opts);
 	print "</div>\n";
 
-	my $have_search = gitweb_check_feature('search');
-	if (defined $project && $have_search) {
-		print_search_form();
-	}
 }
 
 sub git_footer_html {
@@ -5534,16 +5537,16 @@ sub git_project_search_form {
 		if (defined $project_filter);
 	print $cgi->textfield(-name => 's', -value => $searchtext,
 	                      -title => "Search project by name and description$limit",
-	                      -size => 60) . "\n" .
+                          -class => 'project_search_input') . "\n" .
 	      "<span title=\"Extended regular expression\">" .
 	      $cgi->checkbox(-name => 'sr', -value => 1, -label => 're',
 	                     -checked => $search_use_regexp) .
 	      "</span>\n" .
-	      $cgi->submit(-name => 'btnS', -value => 'Search') .
-	      $cgi->end_form() . "\n" .
-	      $cgi->a({-href => href(project => undef, searchtext => undef,
-	                             project_filter => $project_filter)},
-	              esc_html("List all projects$limit")) . "<br />\n";
+	      $cgi->submit(-name => 'btnS', -value => 'Search', -class => 'project_search_submit') .
+	      $cgi->end_form() . "\n"; #.
+	      #$cgi->a({-href => href(project => undef, searchtext => undef,
+	      #                       project_filter => $project_filter)},
+	      #        esc_html("List all projects$limit")) . "<br />\n";
 	print "</div>\n";
 }
 
@@ -6476,7 +6479,7 @@ sub git_project_list {
 		print "</div>\n";
 	}
 
-	git_project_search_form($searchtext, $search_use_regexp);
+	#git_project_search_form($searchtext, $search_use_regexp);
 	git_project_list_body(\@list, $order);
 	git_footer_html();
 }

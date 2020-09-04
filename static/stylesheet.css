@@ -25,18 +25,33 @@ body {
 
 .header_banner {
     background-color: var(--bg-light);
-    text-align: center;
 
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+
 }
-.header_banner h1 {
-    margin: 0;
-    color: white;
+.header_banner img {
+    image-rendering: pixelated;
+    height: 3rem;
+    width: auto;
+    
+    padding-left: 1rem;
+    display: inline-block;
+}
+.projsearch {
+    float: right;
+}
+
+.page_header  {
+    color: var(--text-dark);
+    padding-left: 1rem;
+}
+.page_header a {
+    color: var(--text-light);
 }
 
 .project_list {
-
+    
 }
 
 tr.light {
