@@ -4174,16 +4174,24 @@ EOF
 	print "</head>\n" .
 	      "<body>\n";
     
+
     print "<div class=\"header_banner\">\n"; 
                
+
 	if (defined $site_header && -f $site_header) {
 		insert_file($site_header);
 	}
+    
+	print "<div class=\"breadcrumbs_container\">\n";
+	print "<div class=\"breadcrumbs\">\n";
+	print_nav_breadcrumbs(%opts);
+	print "</div>\n";
+	print "</div>\n";
 
 	git_project_search_form($searchtext, $search_use_regexp);
-    print "</div>";
 
-	print "<div class=\"page_header\">\n";
+    print "</div>\n";
+
 
 #	if (defined $logo) {
 #		print $cgi->a({-href => esc_url($logo_url),
@@ -4194,8 +4202,7 @@ EOF
 #		                         -class => "logo"}));
 #	}
 
-	print_nav_breadcrumbs(%opts);
-	print "</div>\n";
+#	print_nav_breadcrumbs(%opts);
 
 }
 
@@ -5537,12 +5544,14 @@ sub git_project_search_form {
 		if (defined $project_filter);
 	print $cgi->textfield(-name => 's', -value => $searchtext,
 	                      -title => "Search project by name and description$limit",
-                          -class => 'project_search_input') . "\n" .
-	      "<span title=\"Extended regular expression\">" .
-	      $cgi->checkbox(-name => 'sr', -value => 1, -label => 're',
-	                     -checked => $search_use_regexp) .
-	      "</span>\n" .
-	      $cgi->submit(-name => 'btnS', -value => 'Search', -class => 'project_search_submit') .
+                          -class => 'project_search_input',
+                          -placeholder => 'search gitosaur') . "\n" .
+	      #"<span title=\"Extended regular expression\">" .
+	      #$cgi->checkbox(-name => 'sr', -value => 1, -label => 're',
+	      #               -checked => $search_use_regexp,
+          #               -class => 'project_search_checkbox') .
+	      #"</span>\n" .
+	      #$cgi->submit(-name => 'btnS', -value => 'Search', -class => 'project_search_submit') .
 	      $cgi->end_form() . "\n"; #.
 	      #$cgi->a({-href => href(project => undef, searchtext => undef,
 	      #                       project_filter => $project_filter)},
